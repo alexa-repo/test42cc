@@ -1,0 +1,17 @@
+﻿{% load i18n %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "42cc test" %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}../media/css/base.css" media="screen, projection">
+    {% block header %}{% endblock %}
+</head>
+<body>
+    <h3>42 Coffee Cups Test Assignment</h3>
+    {% block content %}{% endblock %}
+    {% block script %}{% endblock %}
+</body>
+</html>
