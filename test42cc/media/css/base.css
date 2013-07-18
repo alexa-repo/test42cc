@@ -11,14 +11,14 @@ h3 {
 div#left {
   float:left;
   margin-right: 3em;
-  text-align: right;
+  text-align: left;
   margin-bottom: 3em;
   width:360px;
 }
 
 div#right {
   float:left;
-  text-align: right;
+  text-align: left;
 }
 
 .clear {
@@ -27,12 +27,13 @@ div#right {
 
 span.label, div.content div.field span {
   font-weight:bold;
+  font-size: 1em;
 }
 
 div.field {
   margin: 0.7em;
 }
 
-#textarea-wrapper {
+div.textarea {
   text-align: left;
 }
