@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif, Verdana;
+  font-size: 0.9em;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+div#left {
+  float:left;
+  margin-right: 3em;
+  text-align: right;
+  margin-bottom: 3em;
+  width:360px;
+}
+
+div#right {
+  float:left;
+  text-align: right;
+}
+
+.clear {
+  clear:both;
+}
+
+span.label, div.content div.field span {
+  font-weight:bold;
+}
+
+div.field {
+  margin: 0.7em;
+}
+
+#textarea-wrapper {
+  text-align: left;
+}
