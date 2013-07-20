@@ -1,11 +1,11 @@
 {% extends "base.html"  %}
 
 {% block header %}
-    <link rel="stylesheet" href="media/css/requests.css" media="screen, projection">
+    <link rel="stylesheet" href="{{ STATIC_URL }}../media/css/requests.css" media="screen, projection">
 {% endblock %}
 
 {% block content %}
-<h2>HTTP Requests</h2>
+<h4>HTTP Requests</h4>
 <table cellspacing="0" cellpadding="5" border="1">
    <tr>
      <th>Date&Time</th>
@@ -16,7 +16,7 @@
 {% for req in request_list %}
 
     <tr>
-        <td>{{ req.date_with_time|date:"d m H:i:s.u" }}</td>
+        <td>{{ req.date_with_time|date:"Y-m-d H:i" }}</td>
         <td>{{ req.path }}</td>
         <td>{{ req.user|default_if_none:'---' }}</td>
         <td>{{ req.method }}</td>
