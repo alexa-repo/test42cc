@@ -1,5 +1,7 @@
+from django.core.urlresolvers import reverse
 from django.test import TestCase
-from models import Person
+from models import Person, HttpStoredQuery
+
 
 class PersonTestCase(TestCase):
     """
@@ -21,3 +23,17 @@ class PersonTestCase(TestCase):
         self.assertEqual(str(person.email), 'alexa.sandra.mail@gmail.com')
         self.assertEqual(str(person.jabber), 'alexa_sandra@jabber.ru')
         self.assertEqual(str(person.skype), 'alexa_sandra_')
+
+
+class HttpQueriesMiddlewareTest(TestCase):
+    """
+    Test middleware
+    """
+
+    def setUp(self):
+        pass
+
+    def test_request(self):
+        response = self.client.get('admin/auth/user/1/')
+        req = HttpStoredQuery.objects.latest('id')
+        self.assertEqual('admin/auth/user/1/', req.path)
