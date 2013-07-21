@@ -37,3 +37,14 @@ div.field {
 div.textarea {
   text-align: left;
 }
+
+.container-edit-form div.field input {
+  background: #C9DBED;
+  height: 30px;
+  padding: 0 2px;
+  box-shadow: 0 1px 0 white;
+  -moz-box-shadow: 0 1px 0 white;
+  -webkit-box-shadow: 0 1px 0 white;
+  text-align: center;
+  vertical-align: middle;
+}
