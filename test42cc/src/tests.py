@@ -1,4 +1,6 @@
 from django.core.urlresolvers import reverse
+from django.http.request import HttpRequest
+from django.template import RequestContext
 from django.test import TestCase
 from models import Person, HttpStoredQuery
 
@@ -37,3 +39,16 @@ class HttpQueriesMiddlewareTest(TestCase):
         response = self.client.get('admin/auth/user/1/')
         req = HttpStoredQuery.objects.latest('id')
         self.assertEqual('admin/auth/user/1/', req.path)
+
+
+class ContextProcessorTest(TestCase):
+    """
+    Test contextProcessor
+    """
+
+    def test_settings_in_context(self):
+        try:
+            default_context = RequestContext(HttpRequest())
+            self.assertTrue(default_context.has_key('SETTINGS'))
+        except ImportError:
+            pass
