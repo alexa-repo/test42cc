@@ -14,7 +14,10 @@
         <div class="field">{{ form.first_name.label_tag }}:{{ form.first_name }}</div>
         <div class="field">{{ form.last_name.label_tag }}:{{ form.last_name }}</div>
         <div class="field">{{ form.birth_date.label_tag }}:{{ form.birth_date }}</div>
-        <div class="field">{{ form.photo.label_tag }}:{{ form.photo }}</div>
+        <div class="field">{{ form.image_photo.label_tag }}:{{ form.image_photo }}</div>
+        {% if info.image_photo %}
+            <div><img src="{{ info.image_photo.url }}" width="300" height="200" alt=""></div>
+        {% endif %}
     </div>
 
     <div id="right">
@@ -23,15 +26,18 @@
         <div class="field">{{ form.jabber.label_tag }}:{{ form.jabber }}</div>
         <div class="field">{{ form.skype.label_tag }}:{{ form.skype }}</div>
         <div class="field"><div class="textarea">
-                                 {{ contact.other_contacts|escape|linebreaks }}</div></div>
+                                 {{ form.other_contacts.label_tag }}:{{ form.other_contacts|safe }}</div></div>
         <div class="field"><div class="textarea">
-                                 {{ form.bio.label_tag }}:{{ form.bio|escape|linebreaks }}</div></div>
+                                 {{ form.bio.label_tag }}:{{ form.bio|safe }}</div></div>
     </div>
+<input type="submit" value="submit" />
+</form>
 </div>
 {% else %}
      You have not rights
-     <!--<a href="{#% url 'login' %#}">Login</a>
-{% endif %}<div class="clear"></div>
+     <a href="{% url 'login' %}">Login</a>
+{% endif %}
+<div class="clear"></div>
 <div class="underline">
     <hr>
     <a href="{% url 'requests' %}">queries</a>

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.core.serializers import json
+from django.contrib.auth.decorators import login_required
+import json
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from models import Person, HttpStoredQuery
 from django.shortcuts import render
 from test42cc.src.forms import PersonForm
@@ -27,7 +28,7 @@ def stored_requests(request):
         req = []
     return render(request, 'requests.html', dict(request_list=req))
 
-
+@login_required()
 def edit_person_entry(request):
     """
     View for edit current Person entry
@@ -47,7 +48,7 @@ def edit_person_entry(request):
             if request.FILES:
                 form.cleaned_data['image_photo'] = request.FILES['image_photo']
             form.save()
-            return HttpResponse(json.dumps(dict(status=0, redirect=reverse('edit'))))
+            return HttpResponseRedirect(reverse(index))
     else:
         form = PersonForm(instance=entry)
         return render(request, 'edit.html', locals())

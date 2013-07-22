@@ -38,13 +38,18 @@ div.textarea {
   text-align: left;
 }
 
-.container-edit-form div.field input {
-  background: #C9DBED;
-  height: 30px;
-  padding: 0 2px;
-  box-shadow: 0 1px 0 white;
-  -moz-box-shadow: 0 1px 0 white;
-  -webkit-box-shadow: 0 1px 0 white;
+.container-edit-form div.field label{
+  text-align: right;
+  display:inline-block;
+  width: 100px;
+  color: #444444;
+}
+.container-edit-form div.field input  {
+  padding: 2px 2px;
+  border: 1px solid #cdcdcd;
   text-align: center;
   vertical-align: middle;
+}
+.container-edit-form div.textarea textarea{
+  border: 1px solid #cdcdcd;
 }
