@@ -15,8 +15,8 @@
         <div class="field">{{ form.last_name.label_tag }}:{{ form.last_name }}</div>
         <div class="field">{{ form.birth_date.label_tag }}:{{ form.birth_date }}</div>
         <div class="field">{{ form.image_photo.label_tag }}:{{ form.image_photo }}</div>
-        {% if info.image_photo %}
-            <div><img src="{{ info.image_photo.url }}" width="300" height="200" alt=""></div>
+        {% if entry.image_photo %}
+            <div><img src="{{ entry.image_photo.url }}" width="300" height="200" alt=""></div>
         {% endif %}
     </div>
 

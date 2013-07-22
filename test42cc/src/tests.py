@@ -3,6 +3,7 @@ from django.http.request import HttpRequest
 from django.template import RequestContext
 from django.test import TestCase
 from models import Person, HttpStoredQuery
+from test42cc.src.forms import PersonForm
 
 
 class PersonTestCase(TestCase):
@@ -52,3 +53,25 @@ class ContextProcessorTest(TestCase):
             self.assertTrue(default_context.has_key('SETTINGS'))
         except ImportError:
             pass
+
+
+class EditPersonEntryTest(TestCase):
+    """
+    Test edit form
+    """
+    def setUp(self):
+        pass
+
+    def test_edit_account(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        entry = Person.objects.all()
+        form = PersonForm(instance=entry)
+        response = self.client.get(reverse("edit", kwargs={'form': form}))
+        self.assertEqual(response.status_code, 200)
+
+        entry['birth_date'] = '1987-12-28'
+
+        self.client.post(reverse("edit"), data=entry)
+        self.failUnlessEqual(response.status_code, 302)
+
