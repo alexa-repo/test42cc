@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block header %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}../media/css/requests.css" media="screen, projection">
+    <link rel="stylesheet" href="{% static "css/requests.css.css" %}" media="screen, projection">
 {% endblock %}
 
 {% block content %}
@@ -20,6 +21,7 @@
         <td>{{ req.path }}</td>
         <td>{{ req.user|default_if_none:'---' }}</td>
         <td>{{ req.method }}</td>
+    </tr>
 {% endfor %}
 </table>
 {% endblock %}

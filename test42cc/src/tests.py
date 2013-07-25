@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext
-from django.test import TestCase
+from django.test import TestCase, Client
 from models import Person, HttpStoredQuery
 from test42cc.src.forms import PersonForm
 
@@ -11,9 +11,6 @@ class PersonTestCase(TestCase):
     Test for model Person and main page
     """
     fixtures = ['initial_data.json']
-
-    def setUp(self):
-        pass
 
     def test_index(self):
         response = self.client.get('/')
@@ -32,10 +29,6 @@ class HttpQueriesMiddlewareTest(TestCase):
     """
     Test middleware
     """
-
-    def setUp(self):
-        pass
-
     def test_request(self):
         response = self.client.get('admin/auth/user/1/')
         req = HttpStoredQuery.objects.latest('id')
@@ -59,22 +52,14 @@ class EditPersonEntryTest(TestCase):
     """
     Test edit form
     """
-    def setUp(self):
-        pass
-
     def test_edit_account(self):
-        pass
-        """
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        entry = Person.objects.get(pk=1)
-        form = PersonForm(instance=entry)
-        #print reverse("edit", )
-        response = self.client.get(reverse("edit"), data=form)
-        self.assertEqual(response.status_code, 200)
-
+        entry = Person.objects.values().get(pk=1)
+        self.assertTrue(self.client.login(username='admin', password='admin'))
+        self.client.post(reverse('edit'), data=entry)
         entry['birth_date'] = '1987-12-28'
-
         self.client.post(reverse("edit"), data=entry)
-        self.failUnlessEqual(response.status_code, 302)"""
+        self.failUnlessEqual(response.status_code, 200)
+
 

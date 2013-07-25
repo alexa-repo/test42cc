@@ -8,6 +8,13 @@ h3 {
   font-weight: bold;
 }
 
+.authorization{
+  float:left;
+  left:575px;
+  position: absolute;
+  top:30px;
+}
+
 div#left {
   float:left;
   margin-right: 3em;
@@ -17,7 +24,7 @@ div#left {
 }
 
 div#right {
-  float:left;
+  /*float:left;*/
   text-align: left;
 }
 
@@ -52,4 +59,8 @@ div.textarea {
 }
 .container-edit-form div.textarea textarea{
   border: 1px solid #cdcdcd;
+}
+
+.buttons {
+    display: block;
 }
