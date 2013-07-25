@@ -26,7 +26,7 @@ def stored_requests(request):
         req = HttpStoredQuery.objects.all().order_by('-date_with_time')[:10]
     except HttpStoredQuery.DoesNotExist:
         req = []
-    return render(request, 'requests.html', dict(request_list=req))
+    return render(request, 'src/requests.html', dict(request_list=req))
 
 @login_required()
 def edit_person_entry(request):
@@ -51,4 +51,4 @@ def edit_person_entry(request):
             return HttpResponseRedirect(reverse(index))
     else:
         form = PersonForm(instance=entry)
-        return render(request, 'edit.html', locals())
+        return render(request, 'src/edit.html', locals())

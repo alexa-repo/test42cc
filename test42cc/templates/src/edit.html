@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
- <form method="POST" action="." enctype="multipart/form-data" id="form_id">
+ <form method="POST" action="../" enctype="multipart/form-data" id="form_id">
 {% csrf_token %}
  <div id="errors_list">
 {{ form.non_field_errors }}
