@@ -15,7 +15,7 @@ test:
 
 
 syncdb: clean_db
-	PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --no-initial-data #--migrate
+	PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --no-initial-data --migrate
 	PYTHONPATH= $(PYTHONPATH) python manage.py loaddata initial_data.json
 
 clean_db:
