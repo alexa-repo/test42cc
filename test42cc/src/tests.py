@@ -1,9 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext
-from django.test import TestCase, Client
+from django.test import TestCase
 from models import Person, HttpStoredQuery
-from test42cc.src.forms import PersonForm
 
 
 class PersonTestCase(TestCase):
@@ -29,6 +28,7 @@ class HttpQueriesMiddlewareTest(TestCase):
     """
     Test middleware
     """
+
     def test_request(self):
         response = self.client.get('admin/auth/user/1/')
         req = HttpStoredQuery.objects.latest('id')
@@ -52,6 +52,22 @@ class EditPersonEntryTest(TestCase):
     """
     Test edit form
     """
+
+    def test_auth_for_form(self):
+        entry = Person.objects.values().get(pk=1)
+        url = reverse('edit')
+
+        # Authorization
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+        # Logging in
+        self.assertTrue(self.client.login(username='admin', password='admin'))
+        response = self.client.get(url)
+        self.assertContains(response, '<form method="POST" action="../" enctype="multipart/form-data" id="form_id">')
+        self.assertContains(response, '<input id="id_first_name" maxlength="60" '
+                                      'name="first_name" type="text" value="%s" />' % entry["first_name"])
+
     def test_edit_account(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
