@@ -24,9 +24,9 @@
         <div class="field"><span>Last name:</span> {{ contact.last_name }}</div>
         <div class="field"><span>Date of birth:</span> {{ contact.birth_date|date:'Y-m-d' }}</div>
         <div class="field"><span>Photo:</span></div>
-        {% if contact.image_photo %}
-            <img src="{{ contact.image_photo.url }}" width="300" height="200" alt="">
-       {% endif %}
+        {#% if contact.image_photo %#}
+            <img src="{# { contact.image_photo.url }#}" width="300" height="200" alt="">
+       {#% endif %#}
     </div>
 
     <div id="right">
