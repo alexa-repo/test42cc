@@ -15,6 +15,7 @@ test:
 
 
 syncdb:
+    rm persondb
     PYTHONPATH=`pwd`/test42cc DJANGO_SETTINGS_MODULE=settings $(MANAGE) syncdb --noinput
     #rm -rf persondb
 	#PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --migrate
