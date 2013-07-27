@@ -11,7 +11,7 @@ runserver:
 	PYTHONPATH=$(PYTHONPATH) python manage.py runserver
 
 test:
-	python manage.py test src
+	#python manage.py test src
 
 
 syncdb:
