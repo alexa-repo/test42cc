@@ -1,16 +1,12 @@
-from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext
-from django.template.defaultfilters import linebreaks_filter, linebreaksbr, escape_filter, safe
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.test.client import RequestFactory
-from django.utils.safestring import mark_safe
 from models import Person, HttpStoredQuery
 from test42cc.src.forms import PersonForm
 from test42cc.src.widget import DatePickerWidget
-import json
+
 
 class PersonTestCase(TestCase):
     """
