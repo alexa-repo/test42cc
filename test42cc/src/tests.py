@@ -41,11 +41,8 @@ class ContextProcessorTest(TestCase):
     """
 
     def test_settings_in_context(self):
-        try:
-            default_context = RequestContext(HttpRequest())
-            self.assertTrue(default_context.has_key('SETTINGS'))
-        except ImportError:
-            pass
+        default_context = RequestContext(HttpRequest())
+        self.assertTrue(default_context.has_key('SETTINGS'))
 
 
 class EditPersonEntryTest(TestCase):
