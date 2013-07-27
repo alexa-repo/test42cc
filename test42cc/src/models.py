@@ -12,7 +12,7 @@ class Person(models.Model):
     skype = models.CharField(max_length=40, verbose_name="Skype name")
     jabber = models.CharField(max_length=75, verbose_name="Jabber ID")
     other_contacts = models.TextField(verbose_name="Other contacts")
-    image_photo = models.ImageField(verbose_name="Photo", upload_to='images/uploads', null=True, blank=True)
+    #image_photo = models.ImageField(verbose_name="Photo", upload_to='images/uploads', null=True, blank=True)
 
     def _get_full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
