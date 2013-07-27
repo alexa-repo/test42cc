@@ -24,6 +24,7 @@ class Migration(SchemaMigration):
         db.send_create_signal(u'src', ['Person'])
         """
         # Adding model 'HttpStoredQuery'
+        """
         db.create_table(u'src_httpstoredquery', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('path', self.gf('django.db.models.fields.CharField')(max_length=300)),
@@ -32,15 +33,16 @@ class Migration(SchemaMigration):
             ('date_with_time', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 21, 0, 0), auto_now=True, blank=True)),
         ))
         db.send_create_signal(u'src', ['HttpStoredQuery'])
-
+        """
+        pass
 
     def backwards(self, orm):
         # Deleting model 'Person'
         #db.delete_table(u'src_person')
 
         # Deleting model 'HttpStoredQuery'
-        db.delete_table(u'src_httpstoredquery')
-
+        #db.delete_table(u'src_httpstoredquery')
+        pass
 
     models = {
         u'auth.group': {
