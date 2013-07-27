@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-import json
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from models import Person, HttpStoredQuery
 from django.shortcuts import render
-from test42cc.src.forms import PersonForm
+from forms import PersonForm
 
 
 def index(request):
@@ -27,6 +26,7 @@ def stored_requests(request):
     except HttpStoredQuery.DoesNotExist:
         req = []
     return render(request, 'src/requests.html', dict(request_list=req))
+
 
 @login_required()
 def edit_person_entry(request):

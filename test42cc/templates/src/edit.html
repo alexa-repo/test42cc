@@ -1,50 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
- <form method="POST" action="../" enctype="multipart/form-data" id="form_id">
-{% csrf_token %}
- <div id="errors_list">
-{{ form.non_field_errors }}
- </div>
+    {% if user.is_authenticated %}
+        <form method="POST" action="../" enctype="multipart/form-data" id="form_id">
+            {% csrf_token %}
+            <div id="errors_list">
+                {{ form.non_field_errors }}
+            </div>
 
-<div class="container-edit-form">
-    <div id="left">
-        <div class="field"><span>Name</span></div>
-        <div class="field">{{ form.first_name.label_tag }}:{{ form.first_name }}</div>
-        <div class="field">{{ form.last_name.label_tag }}:{{ form.last_name }}</div>
-        <div class="field">{{ form.birth_date.label_tag }}:{{ form.birth_date }}</div>
-        <div class="field">{{ form.image_photo.label_tag }}:{{ form.image_photo }}</div>
-        {% if entry.image_photo %}
-            <div><img src="{{ entry.image_photo.url }}" width="300" height="200" alt=""></div>
-        {% endif %}
+            <div class="container-edit-form">
+                <div id="left">
+                    <div class="field"><span>Name</span></div>
+                    <div class="field">{{ form.first_name.label_tag }}:{{ form.first_name }}</div>
+                    <div class="field">{{ form.last_name.label_tag }}:{{ form.last_name }}</div>
+                    <div class="field">{{ form.birth_date.label_tag }}:{{ form.birth_date }}</div>
+                    <div class="field">{{ form.image_photo.label_tag }}:{{ form.image_photo }}</div>
+                    {% if entry.image_photo %}
+                        <div><img src="{{ entry.image_photo.url }}" width="300" height="200" alt=""></div>
+                    {% endif %}
+                </div>
+
+                <div id="right">
+                    <div class="field"><span>Contacts</span></div>
+                    <div class="field">{{ form.email.label_tag }}:{{ form.email }}</div>
+                    <div class="field">{{ form.jabber.label_tag }}:{{ form.jabber }}</div>
+                    <div class="field">{{ form.skype.label_tag }}:{{ form.skype }}</div>
+                    <div class="field">
+                        <div class="textarea">
+                            {{ form.other_contacts.label_tag }}:{{ form.other_contacts|safe }}</div>
+                    </div>
+                    <div class="field">
+                        <div class="textarea">
+                            {{ form.bio.label_tag }}:{{ form.bio|safe }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="submit"/>
+                <a href="{% url 'index' %}">Cancel</a>
+            </div>
+
+        </form>
+
+    {% else %}
+        You have not rights
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <div class="clear"></div>
+    <div class="underline">
+        <hr>
+        <a href="{% url 'requests' %}">queries</a>
     </div>
-
-    <div id="right">
-        <div class="field"><span>Contacts</span></div>
-        <div class="field">{{ form.email.label_tag }}:{{ form.email }}</div>
-        <div class="field">{{ form.jabber.label_tag }}:{{ form.jabber }}</div>
-        <div class="field">{{ form.skype.label_tag }}:{{ form.skype }}</div>
-        <div class="field"><div class="textarea">
-                                 {{ form.other_contacts.label_tag }}:{{ form.other_contacts|safe }}</div></div>
-        <div class="field"><div class="textarea">
-                                 {{ form.bio.label_tag }}:{{ form.bio|safe }}</div></div>
-    </div>
-</div>
-<div class="buttons">
-    <input type="submit" value="submit" />
-    <a href="{% url 'index' %}">Cancel</a>
-</div>
-
-</form>
-
-{% else %}
-     You have not rights
-     <a href="{% url 'login' %}">Login</a>
-{% endif %}
-<div class="clear"></div>
-<div class="underline">
-    <hr>
-    <a href="{% url 'requests' %}">queries</a>
-</div>
 {% endblock %}

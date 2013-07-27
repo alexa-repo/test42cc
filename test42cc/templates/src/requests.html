@@ -6,22 +6,22 @@
 {% endblock %}
 
 {% block content %}
-<h4>HTTP Requests</h4>
-<table cellspacing="0" cellpadding="5" border="1">
-   <tr>
-     <th>Date&Time</th>
-     <th>Path</th>
-     <th>User</th>
-     <th>Method</th>
-   </tr>
-{% for req in request_list %}
+    <h4>HTTP Requests</h4>
+    <table cellspacing="0" cellpadding="5" border="1">
+        <tr>
+            <th>Date&Time</th>
+            <th>Path</th>
+            <th>User</th>
+            <th>Method</th>
+        </tr>
+        {% for req in request_list %}
 
-    <tr>
-        <td>{{ req.date_with_time|date:"Y-m-d H:i" }}</td>
-        <td>{{ req.path }}</td>
-        <td>{{ req.user|default_if_none:'---' }}</td>
-        <td>{{ req.method }}</td>
-    </tr>
-{% endfor %}
-</table>
+            <tr>
+                <td>{{ req.date_with_time|date:"Y-m-d H:i" }}</td>
+                <td>{{ req.path }}</td>
+                <td>{{ req.user|default_if_none:'---' }}</td>
+                <td>{{ req.method }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

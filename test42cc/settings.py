@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'accountdb3',#'persondb', # Or path to database file if using sqlite3.
+        'NAME': 'accountdb3', #'persondb', # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'alexa',
         'PASSWORD': 'alexa',
@@ -74,10 +74,10 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-# Put strings here, like "/home/html/static" or "C:/www/django/static".
-# Always use forward slashes, even on Windows.
-# Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, 'static').replace('\\','/'),
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT, 'static').replace('\\', '/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -120,7 +120,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'test42cc.context_processors.media',
     'test42cc.src.context_processors.settings_to_context',
 )
-
 
 ROOT_URLCONF = 'test42cc.urls'
 

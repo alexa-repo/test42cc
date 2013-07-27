@@ -1,64 +1,66 @@
 body {
-  font-family: sans-serif, Verdana;
-  font-size: 0.9em;
+    font-family: sans-serif, Verdana;
+    font-size: 0.9em;
 }
 
 h3 {
-  font-size: 1.5em;
-  font-weight: bold;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
-.authorization{
-  float:left;
-  left:575px;
-  position: absolute;
-  top:30px;
+.authorization {
+    float: left;
+    left: 575px;
+    position: absolute;
+    top: 30px;
 }
 
 div#left {
-  float:left;
-  margin-right: 3em;
-  text-align: left;
-  margin-bottom: 3em;
-  width:360px;
+    float: left;
+    margin-right: 3em;
+    text-align: left;
+    margin-bottom: 3em;
+    width: 360px;
 }
 
 div#right {
-  /*float:left;*/
-  text-align: left;
+    /*float:left;*/
+    text-align: left;
 }
 
 .clear {
-  clear:both;
+    clear: both;
 }
 
 span.label, div.content div.field span {
-  font-weight:bold;
-  font-size: 1em;
+    font-weight: bold;
+    font-size: 1em;
 }
 
 div.field {
-  margin: 0.7em;
+    margin: 0.7em;
 }
 
 div.textarea {
-  text-align: left;
+    text-align: left;
 }
 
-.container-edit-form div.field label{
-  text-align: right;
-  display:inline-block;
-  width: 100px;
-  color: #444444;
+.container-edit-form div.field label {
+    text-align: right;
+    display: inline-block;
+    width: 100px;
+    color: #444444;
 }
-.container-edit-form div.field input  {
-  padding: 2px 2px;
-  border: 1px solid #cdcdcd;
-  text-align: center;
-  vertical-align: middle;
+
+.container-edit-form div.field input {
+    padding: 2px 2px;
+    border: 1px solid #cdcdcd;
+    text-align: center;
+    vertical-align: middle;
 }
-.container-edit-form div.textarea textarea{
-  border: 1px solid #cdcdcd;
+
+.container-edit-form div.textarea textarea {
+    border: 1px solid #cdcdcd;
 }
 
 .buttons {

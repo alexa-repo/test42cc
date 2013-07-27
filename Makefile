@@ -11,7 +11,8 @@ runserver:
 	PYTHONPATH=$(PYTHONPATH) python manage.py runserver
 
 test:
-	python manage.py test src
+    PYTHONPATH=$(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) test src
+	#python manage.py test src
 
 
 syncdb:
