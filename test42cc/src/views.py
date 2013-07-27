@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import json
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from models import Person, HttpStoredQuery
 from django.shortcuts import render
 from forms import PersonForm
@@ -41,6 +42,17 @@ def edit_person_entry(request):
         entry = Person.objects.get(pk=1)
     except Person.DoesNotExist:
         pass
+
+    if request.is_ajax():
+        form = PersonForm(request.POST, request.FILES, instance=entry)
+        if form.is_valid():
+            if request.FILES:
+                form.cleaned_data['image_photo'] = request.FILES['image_photo']
+            form.save()
+            return HttpResponse(json.dumps(dict(status=0, redirect=reverse('index'))))
+        else:
+            errors = form.errors
+            return HttpResponse(json.dumps(dict(status=1, errors=errors)))
 
     if request.method == 'POST':
         form = PersonForm(request.POST, request.FILES, instance=entry)
