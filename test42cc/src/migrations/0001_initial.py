@@ -9,6 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'Person'
+        """
         db.create_table(u'src_person', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('first_name', self.gf('django.db.models.fields.CharField')(max_length=60)),
@@ -21,7 +22,7 @@ class Migration(SchemaMigration):
             ('other_contacts', self.gf('django.db.models.fields.TextField')()),
         ))
         db.send_create_signal(u'src', ['Person'])
-
+        """
         # Adding model 'HttpStoredQuery'
         db.create_table(u'src_httpstoredquery', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -35,7 +36,7 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         # Deleting model 'Person'
-        db.delete_table(u'src_person')
+        #db.delete_table(u'src_person')
 
         # Deleting model 'HttpStoredQuery'
         db.delete_table(u'src_httpstoredquery')
