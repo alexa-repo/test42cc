@@ -4,7 +4,7 @@ from models import *
 
 
 class PersonAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['first_name', 'last_name', 'birth_date']
 
 
 class HttpStoredQueriesAdmin(admin.ModelAdmin):

@@ -11,14 +11,9 @@ runserver:
 	PYTHONPATH=$(PYTHONPATH) python manage.py runserver
 
 test:
-	#python manage.py test src
+	python manage.py test src
 
 
 syncdb:
-    #PYTHONPATH=$(PYTHONPATH) DJANGO_SETTINGS_MODULE=settings $(MANAGE) syncdb --noinput --migrate
-    #rm -rf persondb
-	PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --migrate
-	#PYTHONPATH= $(PYTHONPATH) python manage.py loaddata initial_data.json
+    PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --migrate
 
-clean_db:
-	rm -rf accountdb

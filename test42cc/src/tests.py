@@ -12,9 +12,10 @@ class PersonTestCase(TestCase):
     fixtures = ['initial_data.json']
 
     def test_index(self):
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
         person = Person.objects.get(pk=1)
+        #check data in selection entry
         self.assertEqual(str(person.first_name), 'Alexandra')
         self.assertEqual(str(person.last_name), 'Mihailjuk')
         self.assertEqual(str(person.birth_date.strftime("%Y-%m-%d")), '1987-11-19')
@@ -22,6 +23,13 @@ class PersonTestCase(TestCase):
         self.assertEqual(str(person.email), 'alexa.sandra.mail@gmail.com')
         self.assertEqual(str(person.jabber), 'alexa_sandra@jabber.ru')
         self.assertEqual(str(person.skype), 'alexa_sandra_')
+        #check that data is on the main page
+        self.assertContains(response, person.first_name)
+        self.assertContains(response, person.last_name)
+        self.assertContains(response, person.birth_date.strftime("%Y-%m-%d"))
+        self.assertContains(response, person.email)
+        self.assertContains(response, person.jabber)
+        self.assertContains(response, person.skype)
 
 
 class HttpQueriesMiddlewareTest(TestCase):
