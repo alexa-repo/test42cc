@@ -14,10 +14,10 @@ test:
 	python manage.py test src
 
 
-syncdb: clean_db
-    PYTHONPATH=`pwd`/django_hello_world DJANGO_SETTINGS_MODULE=settings $(MANAGE) syncdb --noinput
+syncdb:
+    #PYTHONPATH=$(PYTHONPATH) DJANGO_SETTINGS_MODULE=settings $(MANAGE) syncdb --noinput
     #rm -rf persondb
-	#PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --migrate
+	PYTHONPATH= $(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) syncdb --noinput --migrate
 	#PYTHONPATH= $(PYTHONPATH) python manage.py loaddata initial_data.json
 
 clean_db:
