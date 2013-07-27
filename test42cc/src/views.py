@@ -22,7 +22,7 @@ def index(request):
 
 def stored_requests(request):
     try:
-        req = HttpStoredQuery.objects.all().order_by('-date_with_time')[:10]
+        req = HttpStoredQuery.objects.all().order_by('date_with_time')[:10]
     except HttpStoredQuery.DoesNotExist:
         req = []
     return render(request, 'src/requests.html', dict(request_list=req))
