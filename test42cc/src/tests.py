@@ -1,10 +1,16 @@
+from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext
+from django.template.defaultfilters import linebreaks_filter, linebreaksbr, escape_filter, safe
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test.client import RequestFactory
+from django.utils.safestring import mark_safe
 from models import Person, HttpStoredQuery
-
+from test42cc.src.forms import PersonForm
+from test42cc.src.widget import DatePickerWidget
+import json
 
 class PersonTestCase(TestCase):
     """
@@ -20,7 +26,7 @@ class PersonTestCase(TestCase):
         self.assertEqual(str(person.first_name), 'Alexandra')
         self.assertEqual(str(person.last_name), 'Mihailjuk')
         self.assertEqual(str(person.birth_date.strftime("%Y-%m-%d")), '1987-11-19')
-        self.assertEqual(str(person.bio), '<br /><br />this is my bio')
+        self.assertEqual(str(person.bio), 'this is my bio')
         self.assertEqual(str(person.email), 'alexa.sandra.mail@gmail.com')
         self.assertEqual(str(person.jabber), 'alexa_sandra@jabber.ru')
         self.assertEqual(str(person.skype), 'alexa_sandra_')
@@ -90,12 +96,12 @@ class EditPersonEntryTest(TestCase):
         # Logging in
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get(url)
-        self.assertContains(response, '<form method="POST" action="../" enctype="multipart/form-data" id="form_id">')
+        self.assertContains(response, '<form method="POST" action="." enctype="multipart/form-data" id="form_id">')
         self.assertContains(response, '<input id="id_first_name" maxlength="60" '
                                       'name="first_name" type="text" value="%s" />' % entry["first_name"])
 
     def test_edit_account(self):
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
         entry = Person.objects.values().get(pk=1)
         self.assertTrue(self.client.login(username='admin', password='admin'))
@@ -103,5 +109,39 @@ class EditPersonEntryTest(TestCase):
         entry['birth_date'] = '1987-12-28'
         self.client.post(reverse("edit"), data=entry)
         self.failUnlessEqual(response.status_code, 200)
+
+    def test_edit_form_contains_widget(self):
+        entry = Person.objects.get(pk=1)
+        form = PersonForm(instance=entry)
+        widgets_list = []
+        for field in form:
+            widgets_list.append(field.field.widget.__class__.__name__)
+        self.assertTrue(DatePickerWidget.__name__ in widgets_list)
+
+    def test_ajax_save_edit_form(self):
+        response = self.client.get(reverse('edit'))
+        self.assertEqual(response.status_code, 302)
+
+        self.client.login(username='admin', password='admin')
+
+        # Valid user
+        response = self.client.get(reverse('edit'))
+        self.assertEqual(response.status_code, 200)
+
+        entry = Person.objects.values().get(pk=1)
+        entry['birth_date'] = '1987-12-28'
+        self.client.post(reverse("edit"), data=entry, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.get(reverse('edit'))
+        self.assertTrue('<!DOCTYPE HTML>' in response.content)
+
+        for k in entry.keys():
+            self.assertContains(response, k)
+            self.assertContains(response, unicode(entry[k]))
+
+        #Error in form
+        entry['birth_date'] = ''
+        response = self.client.post(reverse("edit"), data=entry, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertContains(response, 'This field is required')
+
 
 

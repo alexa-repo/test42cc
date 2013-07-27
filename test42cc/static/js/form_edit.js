@@ -6,11 +6,9 @@ $(function(){
                 $('input:submit').attr("disabled","disabled");
             },
             success : function(responce) {
-                alert(responce);
                 $("#progress").hide();
                 $('input:submit').removeAttr("disabled");
                 data = $.parseJSON(responce);
-                alert(data);
                 if (data['status'] == 1){
                     err = data['errors'];
                     $.each(err, function(name, error) {
