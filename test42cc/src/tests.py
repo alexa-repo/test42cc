@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext
 from django.test import TestCase
+from django.contrib.auth.models import User
 from models import Person, HttpStoredQuery
 
 
@@ -37,10 +38,30 @@ class HttpQueriesMiddlewareTest(TestCase):
     Test middleware
     """
 
-    def test_request(self):
-        response = self.client.get('admin/auth/user/1/')
+    def test_add_request(self):
+        user_object = User.objects.get(pk=1)
+        url = reverse('admin:%s_%s_change' % (user_object._meta.app_label, user_object._meta.module_name),
+                      args=[user_object.id])
+        response = self.client.get(url)
         req = HttpStoredQuery.objects.latest('id')
-        self.assertEqual('admin/auth/user/1/', req.path)
+        self.assertEqual(response._request.path, req.path)
+
+    def test_requests_count(self):
+        #generate requests
+        COUNT_SHOW_REQ = 10
+        urls = ['/%d' % n for n in range(COUNT_SHOW_REQ + 2)]
+        for url in urls:
+            self.client.get(url)
+
+        response = self.client.get(reverse('requests'))
+        self.assertContains(response, '<h4>HTTP Requests</h4>')
+        self.assertContains(response, '<td>%s</td>' % urls[0])
+
+        for url in urls[:COUNT_SHOW_REQ]:
+            self.assertContains(response, '<td>%s</td>' % url)
+
+        for url in urls[COUNT_SHOW_REQ:]:
+            self.assertNotContains(response, '<td>%s</td>' % url)
 
 
 class ContextProcessorTest(TestCase):
