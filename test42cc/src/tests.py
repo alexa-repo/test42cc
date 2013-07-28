@@ -1,11 +1,12 @@
+import datetime
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext, Template, Context
 from django.test import TestCase
 from django.contrib.auth.models import User
-from models import Person, HttpStoredQuery
-from test42cc.src.forms import PersonForm
-from test42cc.src.widget import DatePickerWidget
+from models import Person, HttpStoredQuery, ModelsActions
+from forms import PersonForm
+from widget import DatePickerWidget
 
 
 class PersonTestCase(TestCase):
@@ -156,3 +157,24 @@ class EditLinkTagTest(TestCase):
         c = Context({"obj": self.obj})
         result = t.render(c)
         self.assertEqual(link, result)
+
+
+class TestSignals(TestCase):
+    def test_signals(self):
+        user = Person(2, "New Name", "LastName", datetime.datetime.strptime("30 Nov 00", "%d %b %y").date(),
+                      "bio", "mail@mail.com", "name_", "my_jabber@djabber.com",
+                      "other")
+        user.save()
+
+        record = ModelsActions.objects.latest('date_with_time')
+        self.assertEqual(record.action, 0)
+
+        user.bio = "This is new Biography"
+        user.save()
+        record = ModelsActions.objects.latest('date_with_time')
+        self.assertEqual(record.action, 1)
+
+        user.delete()
+        record = ModelsActions.objects.latest('date_with_time')
+
+        self.assertEqual(record.action, 2)
