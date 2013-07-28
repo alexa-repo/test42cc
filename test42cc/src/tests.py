@@ -1,4 +1,7 @@
 import datetime
+import sys
+from StringIO import StringIO
+from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext, Template, Context
@@ -178,3 +181,20 @@ class TestSignals(TestCase):
         record = ModelsActions.objects.latest('date_with_time')
 
         self.assertEqual(record.action, 2)
+
+class ModelsListCommandTest(TestCase):
+    def test_command(self):
+        from django.db.models import get_models
+
+        output = sys.stdout = StringIO()
+        call_command('appmodelslist', 'person')
+        sys.stdout = sys.__stdout__
+        for model in get_models('person'):
+            self.assertEqual(output.getvalue().find(model.__name__), 0)
+
+        outputerr = sys.stderr = StringIO()
+        call_command('appmodelslist', 'person', prefix='--err-stderr')
+        sys.stderr = sys.__stderr__
+        for model in get_models('person'):
+            self.assertTrue(outputerr.getvalue().find('err'))
+            self.assertEqual(outputerr.getvalue().find('error:%s' % model.__name__))
