@@ -8,7 +8,8 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 class HttpStoredQueriesAdmin(admin.ModelAdmin):
-    list_display = ['path', 'method', 'user', 'date_with_time']
+    list_filter = ['priority']
+    list_display = ['path', 'method', 'user', 'date_with_time', 'priority']
 
 
 class ModelsActionsAdmin(admin.ModelAdmin):
