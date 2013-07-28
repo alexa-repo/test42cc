@@ -28,6 +28,7 @@ class HttpStoredQuery(models.Model):
     method = models.CharField(max_length=20)
     user = models.ForeignKey(User, blank=True, null=True)
     date_with_time = models.DateTimeField(auto_now=True, default=datetime.datetime.now())
+    priority = models.IntegerField(default=1)
 
 
 class ModelsActions(models.Model):
