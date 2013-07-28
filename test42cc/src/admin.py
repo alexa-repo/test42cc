@@ -11,5 +11,10 @@ class HttpStoredQueriesAdmin(admin.ModelAdmin):
     list_display = ['path', 'method', 'user', 'date_with_time']
 
 
+class ModelsActionsAdmin(admin.ModelAdmin):
+    list_display = ['model_name', 'action', 'date_with_time']
+
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(HttpStoredQuery, HttpStoredQueriesAdmin)
+admin.site.register(ModelsActions, ModelsActionsAdmin)

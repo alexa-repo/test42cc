@@ -28,3 +28,22 @@ class HttpStoredQuery(models.Model):
     method = models.CharField(max_length=20)
     user = models.ForeignKey(User, blank=True, null=True)
     date_with_time = models.DateTimeField(auto_now=True, default=datetime.datetime.now())
+
+
+class ModelsActions(models.Model):
+    """
+    Model for store changes in models app
+    """
+    CREATE_ACTION = 0
+    UPDATE_ACTION = 1
+    DELETE_ACTION = 2
+
+    STATUS_CHOICES = (
+        (CREATE_ACTION, 'create'),
+        (UPDATE_ACTION, 'update'),
+        (DELETE_ACTION, 'delete'),
+    )
+
+    action = models.IntegerField(choices=STATUS_CHOICES, default=CREATE_ACTION)
+    model_name = models.CharField(max_length=75)
+    date_with_time = models.DateTimeField(auto_now=True)

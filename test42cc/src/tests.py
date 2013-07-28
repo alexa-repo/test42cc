@@ -149,8 +149,8 @@ class EditLinkTagTest(TestCase):
         self.obj = Person.objects.get(pk=1)
 
     def testEditLinkObject(self):
-        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label,self.obj._meta.module_name),
-                      args=[self.obj.id])
+        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label, self.obj._meta.module_name),
+                       args=[self.obj.id])
         t = Template('{% load edit_link %}{% admin_link obj %}')
         self.client.login(username="admin", password="admin")
         c = Context({"obj": self.obj})
