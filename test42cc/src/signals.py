@@ -18,6 +18,7 @@ def save_model_signal(sender, **kwargs):
         mod.action = ModelsActions.UPDATE_ACTION
     mod.save()
 
+
 def delete_model_signal(sender, **kwargs):
     """
     Save entry about delete some object from model. Ignore model ModelsActions
