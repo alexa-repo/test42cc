@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
-from django.template import RequestContext
+from django.template import RequestContext, Template, Context
 from django.test import TestCase
 from django.contrib.auth.models import User
 from models import Person, HttpStoredQuery
@@ -140,4 +140,19 @@ class EditPersonEntryTest(TestCase):
         self.assertContains(response, 'This field is required')
 
 
+class EditLinkTagTest(TestCase):
+    """
+    Test for template tag for edit object from template in admin site
+    """
 
+    def setUp(self):
+        self.obj = Person.objects.get(pk=1)
+
+    def testEditLinkObject(self):
+        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label,self.obj._meta.module_name),
+                      args=[self.obj.id])
+        t = Template('{% load edit_link %}{% admin_link obj %}')
+        self.client.login(username="admin", password="admin")
+        c = Context({"obj": self.obj})
+        result = t.render(c)
+        self.assertEqual(link, result)
