@@ -13,6 +13,7 @@
             <th>Path</th>
             <th>User</th>
             <th>Method</th>
+            <th>Priority</th>
         </tr>
         {% for req in request_list %}
 
@@ -21,6 +22,7 @@
                 <td>{{ req.path }}</td>
                 <td>{{ req.user|default_if_none:'---' }}</td>
                 <td>{{ req.method }}</td>
+                <td>{{ req.priority }}</td>
             </tr>
         {% endfor %}
     </table>
