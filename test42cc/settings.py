@@ -14,11 +14,14 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'accountdb3', #'persondb', # Or path to database file if using sqlite3.
+        'NAME': 'accountdb3',
+        #'persondb', # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'alexa',
         'PASSWORD': 'alexa',
-        'HOST': '', # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'HOST': '',
+        # Empty for localhost through domain sockets or '127.0.0.1' for
+        # localhost through TCP.
         'PORT': '', # Set to empty string for default.
     }
 }
@@ -128,7 +131,8 @@ DJANGO_SETTINGS_MODULE = 'test42cc.settings'
 WSGI_APPLICATION = 'test42cc.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates" or "
+    # C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_ROOT, 'templates'),
@@ -153,7 +157,7 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = ''
 
 FIXTURE_DIRS = (
-    PROJECT_ROOT,
+    os.path.join(PROJECT_ROOT, 'fixtures')
 )
 
 # A sample logging configuration. The only tangible logging

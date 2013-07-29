@@ -4,11 +4,12 @@ from django.core.management.base import AppCommand
 
 
 class Command(AppCommand):
-    option_list = AppCommand.option_list + (make_option('--err-stderr',
-                                                        action='store_true',
-                                                        dest='err',
-                                                        default=False,
-                                                        help='duplicate output to stderr'),)
+    option_list = AppCommand.option_list + (make_option(
+        '--err-stderr',
+        action='store_true',
+        dest='err',
+        default=False,
+        help='duplicate output to stderr'),)
 
     requires_model_validation = True
     help = 'Prints model names for given application and objects count'
@@ -19,9 +20,9 @@ class Command(AppCommand):
 
         for model in get_models(app):
             err = options.get('err')
-            val = model.__name__ + " - %s objects" % model._default_manager.count()
+            val = model.__name__ + " - %s objects" % model._default_manager.
+                count()
             if err:
                 self.stderr.write('error:%s' % val)
             else:
                 self.stdout.write(val)
-

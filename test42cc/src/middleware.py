@@ -15,4 +15,3 @@ class HttpStoredQueryMiddleware:
             req.user = request.user
         req.save()
         return None
-

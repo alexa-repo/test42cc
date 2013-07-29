@@ -49,7 +49,8 @@ def edit_person_entry(request):
             if request.FILES:
                 form.cleaned_data['image_photo'] = request.FILES['image_photo']
             form.save()
-            return HttpResponse(json.dumps(dict(status=0, redirect=reverse('index'))))
+            return HttpResponse(
+                json.dumps(dict(status=0, redirect=reverse('index'))))
         else:
             errors = form.errors
             return HttpResponse(json.dumps(dict(status=1, errors=errors)))

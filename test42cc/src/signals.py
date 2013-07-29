@@ -31,5 +31,6 @@ def delete_model_signal(sender, **kwargs):
     mod.action = ModelsActions.DELETE_ACTION
     mod.save()
 
+
 post_save.connect(save_model_signal)
 post_delete.connect(delete_model_signal)
