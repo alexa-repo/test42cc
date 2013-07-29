@@ -22,14 +22,6 @@ class PersonTestCase(TestCase):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
         person = Person.objects.get(pk=1)
-        #check data in selection entry
-        self.assertEqual(str(person.first_name), 'Alexandra')
-        self.assertEqual(str(person.last_name), 'Mihailjuk')
-        self.assertEqual(str(person.birth_date.strftime("%Y-%m-%d")), '1987-11-19')
-        self.assertEqual(str(person.bio), 'this is my bio')
-        self.assertEqual(str(person.email), 'alexa.sandra.mail@gmail.com')
-        self.assertEqual(str(person.jabber), 'alexa_sandra@jabber.ru')
-        self.assertEqual(str(person.skype), 'alexa_sandra_')
         #check that data is on the main page
         self.assertContains(response, person.first_name)
         self.assertContains(response, person.last_name)
@@ -46,7 +38,8 @@ class HttpQueriesMiddlewareTest(TestCase):
 
     def test_add_request(self):
         user_object = User.objects.get(pk=1)
-        url = reverse('admin:%s_%s_change' % (user_object._meta.app_label, user_object._meta.module_name),
+        url = reverse('admin:%s_%s_change' % (user_object._meta.app_label,
+                                              user_object._meta.module_name),
                       args=[user_object.id])
         response = self.client.get(url)
         req = HttpStoredQuery.objects.latest('id')
@@ -96,9 +89,13 @@ class EditPersonEntryTest(TestCase):
         # Logging in
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get(url)
-        self.assertContains(response, '<form method="POST" action="." enctype="multipart/form-data" id="form_id">')
-        self.assertContains(response, '<input id="id_first_name" maxlength="60" '
-                                      'name="first_name" type="text" value="%s" />' % entry["first_name"])
+        self.assertContains(response, '<form method="POST" action="." '
+                                      'enctype="multipart/form-data" '
+                                      'id="form_id">')
+        self.assertContains(response, '<input id="id_first_name" '
+                                      'maxlength="60" name="first_name" '
+                                      'type="text" value="%s" />'
+                                      % entry["first_name"])
 
     def test_edit_account(self):
         response = self.client.get(reverse('index'))
@@ -130,7 +127,8 @@ class EditPersonEntryTest(TestCase):
 
         entry = Person.objects.values().get(pk=1)
         entry['birth_date'] = '1987-12-28'
-        self.client.post(reverse("edit"), data=entry, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.post(reverse("edit"), data=entry,
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = self.client.get(reverse('edit'))
         self.assertTrue('<!DOCTYPE HTML>' in response.content)
 
@@ -140,7 +138,8 @@ class EditPersonEntryTest(TestCase):
 
         #Error in form
         entry['birth_date'] = ''
-        response = self.client.post(reverse("edit"), data=entry, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.post(reverse("edit"), data=entry,
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertContains(response, 'This field is required')
 
 
@@ -153,7 +152,8 @@ class EditLinkTagTest(TestCase):
         self.obj = Person.objects.get(pk=1)
 
     def testEditLinkObject(self):
-        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label, self.obj._meta.module_name),
+        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label,
+                                               self.obj._meta.module_name),
                        args=[self.obj.id])
         t = Template('{% load edit_link %}{% admin_link obj %}')
         self.client.login(username="admin", password="admin")
@@ -164,7 +164,8 @@ class EditLinkTagTest(TestCase):
 
 class TestSignals(TestCase):
     def test_signals(self):
-        user = Person(2, "New Name", "LastName", datetime.datetime.strptime("30 Nov 00", "%d %b %y").date(),
+        user = Person(2, "New Name", "LastName",
+                      datetime.datetime.strptime("30 Nov 00", "%d %b %y").date(),
                       "bio", "mail@mail.com", "name_", "my_jabber@djabber.com",
                       "other")
         user.save()
@@ -182,6 +183,7 @@ class TestSignals(TestCase):
 
         self.assertEqual(record.action, 2)
 
+
 class ModelsListCommandTest(TestCase):
     def test_command(self):
         from django.db.models import get_models
@@ -197,4 +199,5 @@ class ModelsListCommandTest(TestCase):
         sys.stderr = sys.__stderr__
         for model in get_models('person'):
             self.assertTrue(outputerr.getvalue().find('err'))
-            self.assertEqual(outputerr.getvalue().find('error:%s' % model.__name__))
+            self.assertEqual(outputerr.getvalue().\
+                        find('error:%s' % model.__name__))
