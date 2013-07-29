@@ -1,13 +1,11 @@
-import datetime
-import sys
-from StringIO import StringIO
-from django.core.management import call_command
+from django.contrib.contenttypes.models import ContentType
+from django.core import urlresolvers
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext, Template, Context
 from django.test import TestCase
 from django.contrib.auth.models import User
-from models import Person, HttpStoredQuery, ModelsActions
+from models import Person, HttpStoredQuery
 from forms import PersonForm
 from widget import DatePickerWidget
 
@@ -93,9 +91,12 @@ class EditPersonEntryTest(TestCase):
         # Logging in
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get(url)
-        self.assertContains(response, '<form method="POST" action="" enctype="multipart/form-data" id="form_id">')
-        self.assertContains(response, '<input id="id_first_name" maxlength="60" '
-                                      'name="first_name" type="text" value="%s" />' % entry["first_name"])
+        self.assertContains(response,
+                            '<form method="POST" action="" enctype="multipart/form-data" id="form_id">')
+        self.assertContains(response,
+                            '<input id="id_first_name" maxlength="60" '
+                            'name="first_name" type="text" value="%s" />' %
+                            entry["first_name"])
 
     def test_edit_account(self):
         response = self.client.get(reverse('index'))
@@ -155,14 +156,16 @@ class EditLinkTagTest(TestCase):
         self.obj = Person.objects.get(pk=1)
 
     def testEditLinkObject(self):
-        link = reverse('admin:%s_%s_change' % (self.obj._meta.app_label,
-                                               self.obj._meta.module_name),
-                       args=[self.obj.id])
+        cont_type = ContentType.objects.get_for_model(self.obj)
+        link = urlresolvers.reverse("admin:%s_%s_change" %
+                                    (cont_type.app_label,
+                                     cont_type.model),
+                                    args=(self.obj.pk,))
         t = Template('{% load edit_link %}{% admin_link obj %}')
         self.client.login(username="admin", password="admin")
         c = Context({"obj": self.obj})
         result = t.render(c)
-        self.assertEqual(link, result)
+        self.assertEqual(u'<a href="%s">(admin)</a>' % link, result)
 
 
 class TestSignals(TestCase):
@@ -191,7 +194,6 @@ class TestSignals(TestCase):
 
 class ModelsListCommandTest(TestCase):
     def test_command(self):
-        from django.db.models import get_models
         """
         output = sys.stdout = StringIO()
         call_command('appmodelslist', 'src')

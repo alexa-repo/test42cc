@@ -14,7 +14,6 @@ def edit_link_in_admin(parser, token):
     :return:AdminEditLinkObject
     """
     try:
-        print token
         tag_name, item = token.split_contents()
 
     except ValueError:
