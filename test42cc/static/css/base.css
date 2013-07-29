@@ -73,6 +73,8 @@ div.container-edit-form img {
 }
 
 .buttons {
+    top: 680px;
+    position: absolute;
     display: block;
 }
 

@@ -43,19 +43,20 @@ def edit_person_entry(request):
     except Person.DoesNotExist:
         pass
 
-    if request.is_ajax():
-        form = PersonForm(request.POST, request.FILES, instance=entry)
-        if form.is_valid():
-            if request.FILES:
-                form.cleaned_data['image_photo'] = request.FILES['image_photo']
-            form.save()
-            return HttpResponse(
-                json.dumps(dict(status=0, redirect=reverse('index'))))
-        else:
-            errors = form.errors
-            return HttpResponse(json.dumps(dict(status=1, errors=errors)))
-
     if request.method == 'POST':
+        form = PersonForm(request.POST, request.FILES, instance=entry)
+
+        if request.is_ajax():
+            if form.is_valid():
+                if request.FILES:
+                    form.cleaned_data['image_photo'] = request.FILES['image_photo']
+                form.save()
+                return HttpResponse(
+                    json.dumps(dict(status=0, redirect=reverse('index'))))
+            else:
+                errors = form.errors
+                return HttpResponse(json.dumps(dict(status=1, errors=errors)))
+
         form = PersonForm(request.POST, request.FILES, instance=entry)
         if form.is_valid():
             if request.FILES:
