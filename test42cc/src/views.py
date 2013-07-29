@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
 from models import Person, HttpStoredQuery
 from django.shortcuts import render
 from forms import PersonForm
@@ -65,4 +66,5 @@ def edit_person_entry(request):
             return HttpResponseRedirect(reverse(index))
     else:
         form = PersonForm(instance=entry)
-        return render(request, 'src/edit.html', locals())
+        return render(request, 'src/edit.html', {'form': form, 'entry': entry},
+                      context_instance=RequestContext(request))
