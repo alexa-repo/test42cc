@@ -47,7 +47,11 @@ div.textarea {
 
 div.container img {
     width: 300px;
-    height: 200px;
+    /*height: 200px;*/
+}
+
+div.container-edit-form img {
+    width:300px;
 }
 
 .container-edit-form div.field label {
