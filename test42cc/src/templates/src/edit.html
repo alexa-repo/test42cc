@@ -7,12 +7,12 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script src="http://malsup.github.io/min/jquery.form.min.js"></script>
-    <script src="{% static "js/form_edit.js"%}"></script>
+    <script src="{% static "js/form_edit.js" %}"></script>
 {% endblock %}
 
 {% block content %}
     {% if user.is_authenticated %}
-        <form method="POST" action="." enctype="multipart/form-data" id="form_id">
+        <form method="POST" action="" enctype="multipart/form-data" id="form_id">
             {% csrf_token %}
             <div id="errors_list">
                 {{ form.non_field_errors }}

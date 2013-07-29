@@ -135,7 +135,7 @@ TEMPLATE_DIRS = (
     # C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, 'templates'),
+    os.path.join(PROJECT_ROOT, 'src/templates'),
 )
 
 INSTALLED_APPS = (
