@@ -10,8 +10,9 @@ clean:
 runserver:
 	PYTHONPATH=$(PYTHONPATH) python manage.py runserver
 
-test: PYTHONPATH=$(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) test src
-	#python manage.py test src
+test: 
+	#PYTHONPATH=$(PYTHONPATH) DJANGO_SETTINGS_MODULE=$(PROJECT).settings $(MANAGE) test src
+	python manage.py test src
 
 
 syncdb:
