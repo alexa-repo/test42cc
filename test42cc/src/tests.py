@@ -106,6 +106,8 @@ class EditPersonEntryTest(TestCase):
         entry['birth_date'] = '1987-12-28'
         self.client.post(reverse("edit"), data=entry)
         self.failUnlessEqual(response.status_code, 200)
+        new_entry = Person.objects.values().get(pk=1)
+        self.assertEquals(entry['birth_date'], new_entry['birth_date'])
 
     def test_edit_form_contains_widget(self):
         entry = Person.objects.get(pk=1)
