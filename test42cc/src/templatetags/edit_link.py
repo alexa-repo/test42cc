@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.contenttypes.models import ContentType
 from django.core import urlresolvers
 
 register = template.Library()
@@ -37,10 +38,11 @@ class AdminEditLink(template.Node):
     def render(self, context):
         try:
             actual_item = self.item.resolve(context)
-            object_admin_url = urlresolvers.reverse("admin:%s_%s_change" % (
-                actual_item._meta.app_label, actual_item._meta.module_name),
-                args=(actual_item.pk,))
-
-            return object_admin_url
+            cont_type = ContentType.objects.get_for_model(actual_item)
+            object_admin_url = urlresolvers.reverse("admin:%s_%s_change" %
+                                                    (cont_type.app_label,
+                                                     cont_type.model),
+                                                    args=(actual_item.pk,))
+            return u'<a href="%s">(admin)</a>' % object_admin_url
         except template.VariableDoesNotExist:
             return ''
