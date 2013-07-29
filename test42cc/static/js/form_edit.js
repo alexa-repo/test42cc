@@ -3,6 +3,7 @@ $(function () {
         $(this).ajaxSubmit({
             beforeSend: function () {
                 $('#progress').html("Progress saving data...");
+                $('#progress').css({color: "black"});
                 $('#progress').show();
                 $('input:submit').attr("disabled", "disabled");
                 $('#form_id input:text').attr("disabled", "disabled");
@@ -15,9 +16,10 @@ $(function () {
                 $('#form_id textarea').removeAttr("disabled");
                 $('#form_id input:file').removeAttr("disabled");
                 data = $.parseJSON(responce);
-                if (data['status'] == 1) {
+                if (data['status'] === false) {
                     $("#progress").hide();
                     err = data['errors'];
+                    $("#errors_list").html('');
                     $.each(err, function (name, error) {
                         $("#errors_list").append(name + ": " + error);
                     });
@@ -25,7 +27,6 @@ $(function () {
                 else {
                     $('#progress').html("Form data have saved");
                     $('#progress').css({color: "green"});
-                    //window.location.href = data['redirect'];
                 }
             }
         });

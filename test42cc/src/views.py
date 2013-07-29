@@ -30,14 +30,7 @@ def stored_requests(request):
     return render(request, 'src/requests.html', dict(request_list=req))
 
 
-@login_required()
-def edit_person_entry(request):
-    """
-    View for edit current Person entry
-    :param itemId:
-    :param request:
-    :return:
-    """
+def get_form_or_save(request):
     entry = None
     try:
         entry = Person.objects.get(pk=1)
@@ -46,25 +39,35 @@ def edit_person_entry(request):
 
     if request.method == 'POST':
         form = PersonForm(request.POST, request.FILES, instance=entry)
-
-        if request.is_ajax():
-            if form.is_valid():
-                if request.FILES:
-                    form.cleaned_data['image_photo'] = request.FILES['image_photo']
-                form.save()
-                return HttpResponse(
-                    json.dumps(dict(status=0, redirect=reverse('index'))))
-            else:
-                errors = form.errors
-                return HttpResponse(json.dumps(dict(status=1, errors=errors)))
-
-        form = PersonForm(request.POST, request.FILES, instance=entry)
         if form.is_valid():
-            if request.FILES:
-                form.cleaned_data['image_photo'] = request.FILES['image_photo']
-            form.save()
-            return HttpResponseRedirect(reverse(index))
+                if request.FILES:
+                    form.cleaned_data['image_photo'] = \
+                        request.FILES['image_photo']
+                form.save()
     else:
         form = PersonForm(instance=entry)
+    return form
+
+@login_required()
+def edit_person_entry(request):
+    """
+    View for edit current Person entry
+    :param itemId:
+    :param request:
+    :return:
+    """
+
+    form = get_form_or_save(request)
+
+    if request.method == 'POST':
+        if request.is_ajax():
+            errors = form.errors
+            status = form.is_valid()
+            return HttpResponse(json.dumps(dict(status=status, errors=errors)))
+
+        else:
+            return HttpResponseRedirect(reverse(index))
+    else:
+        entry = Person.objects.get(pk=1)
         return render(request, 'src/edit.html', {'form': form, 'entry': entry},
                       context_instance=RequestContext(request))
