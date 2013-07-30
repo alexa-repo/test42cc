@@ -47,4 +47,5 @@ class ModelsActions(models.Model):
 
     action = models.IntegerField(choices=STATUS_CHOICES, default=CREATE_ACTION)
     model_name = models.CharField(max_length=75)
+    change_obj_id = models.IntegerField()
     date_with_time = models.DateTimeField(auto_now=True)
