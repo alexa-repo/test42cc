@@ -12,17 +12,18 @@ class Command(AppCommand):
         help='duplicate output to stderr'),)
 
     requires_model_validation = True
-    help = 'Prints model names for given application and objects count'
-    args = '[appname ...]'
+    help = 'Prints model names and objects count'
+    #args = '[appname ...]'
 
-    def handle_app(self, app, **options):
+    def handle_app(self, **options):
         from django.db.models import get_models
 
-        for model in get_models(app):
+        for model in get_models():
             err = options.get('err')
-            val = model.__name__ + " - %s objects" % model._default_manager.
-                count()
-            if err:
-                self.stderr.write('error:%s' % val)
-            else:
-                self.stdout.write(val)
+            val = model.__name__ + \
+                  " - %s objects" % model._default_manager.count()
+            #if err:
+            self.stdout.write(val)
+            self.stderr.write('error:%s' % val)
+            #else:
+            #    self.stdout.write(val)
