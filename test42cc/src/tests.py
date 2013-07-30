@@ -9,7 +9,7 @@ from django.http.request import HttpRequest
 from django.template import RequestContext, Template, Context
 from django.test import TestCase
 from django.contrib.auth.models import User
-from models import Person, HttpStoredQuery
+from models import Person, HttpStoredQuery, ModelsActions
 from forms import PersonForm
 from widget import DatePickerWidget
 
@@ -18,7 +18,7 @@ class PersonTestCase(TestCase):
     """
     Test for model Person and main page
     """
-    fixtures = ['initial_data.json']
+    #fixtures = ['initial_data.json']
 
     def test_index(self):
         response = self.client.get(reverse('index'))
@@ -174,16 +174,17 @@ class EditLinkTagTest(TestCase):
 
 class TestSignals(TestCase):
     def test_signals(self):
-        pass
-        """
-        user = Person(2, "New Name", "LastName",
-                      datetime.datetime.strptime("30 Nov 00", "%d %b %y").date(),
-                      "bio", "mail@mail.com", "name_", "my_jabber@djabber.com",
-                      "other")
+        user = Person(id=2, first_name='Ivan', last_name='Ivanov',
+                      birth_date=datetime.datetime.strptime("30 Nov 00",
+                                                            "%d %b %y").date(),
+                      bio='bio', email='email@mail.com', skype='name_',
+                      jabber='m@jabber.ty', other_contacts='111')
         user.save()
 
         record = ModelsActions.objects.latest('date_with_time')
         self.assertEqual(record.action, 0)
+        self.assertEquals(record.model_name, user.__name__)
+        self.assertEquals(record.pk, user.pk)
 
         user.bio = "This is new Biography"
         user.save()
@@ -194,7 +195,6 @@ class TestSignals(TestCase):
         record = ModelsActions.objects.latest('date_with_time')
 
         self.assertEqual(record.action, 2)
-        """
 
 
 class ModelsListCommandTest(TestCase):
