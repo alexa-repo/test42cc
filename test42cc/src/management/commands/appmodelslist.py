@@ -15,11 +15,11 @@ class Command(AppCommand):
     help = 'Prints model names and objects count'
     #args = '[appname ...]'
 
-    def handle_app(self, **options):
+    def handle(self, **options):
         from django.db.models import get_models
 
         for model in get_models():
-            err = options.get('err')
+            #err = options.get('err')
             val = model.__name__ + \
                   " - %s objects" % model._default_manager.count()
             #if err:

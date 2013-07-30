@@ -1,5 +1,9 @@
+import datetime
+from StringIO import StringIO
+
 from django.contrib.contenttypes.models import ContentType
 from django.core import urlresolvers
+from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 from django.template import RequestContext, Template, Context
@@ -170,6 +174,7 @@ class EditLinkTagTest(TestCase):
 
 class TestSignals(TestCase):
     def test_signals(self):
+        pass
         """
         user = Person(2, "New Name", "LastName",
                       datetime.datetime.strptime("30 Nov 00", "%d %b %y").date(),
@@ -194,18 +199,24 @@ class TestSignals(TestCase):
 
 class ModelsListCommandTest(TestCase):
     def test_command(self):
-        """
-        output = sys.stdout = StringIO()
-        call_command('appmodelslist', 'src')
-        sys.stdout = sys.__stdout__
-        for model in get_models('src'):
-            self.assertEqual(output.getvalue().find(model.__name__), 0)
+        from django.db.models import get_models
 
-        outputerr = sys.stderr = StringIO()
-        call_command('appmodelslist', 'src', prefix='--err-stderr')
-        sys.stderr = sys.__stderr__
-        for model in get_models('src'):
-            self.assertTrue(outputerr.getvalue().find('err'))
-            self.assertEqual(outputerr.getvalue().\
-                        find('error:%s' % model.__name__))
-        """
+        out_io = StringIO()
+        call_command('appmodelslist')
+        command_output = out_io.getvalue().strip()
+        for model in get_models():
+            val = model.__name__ + \
+                  " - %s objects" % model._default_manager.count()
+            self.assertTrue(command_output.find(val))
+            self.assertTrue(command_output.find('error:%s' % val))
+        person_entry_count = Person._default_manager.count()
+        new_entry = Person(id=2, first_name='Ivan', last_name='Ivanov',
+                           birth_date=datetime.datetime.strptime("30 Nov 00",
+                                                                 "%d %b %y").date(),
+                           bio='bio', email='email@mail.com', skype='name_',
+                           jabber='m@jabber.ty', other_contacts='111')
+        new_entry.save()
+        call_command('appmodelslist')
+        command_output = out_io.getvalue().strip()
+        self.assertTrue(command_output.find(Person.__name__ + " - %s objects"
+                                            % unicode(person_entry_count + 1)))
